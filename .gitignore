@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# Configurações Sensíveis (MUITO IMPORTANTE)
+.env
+
+# Banco de Dados Local
+*.db
+*.sqlite3
+
+# IDEs e Editores
+.vscode/
+.idea/
