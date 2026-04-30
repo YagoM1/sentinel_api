@@ -11,6 +11,7 @@ class Settings:
     mudando apenas os valores no arquivo de ambiente.
     """
     PROJECT_NAME: str = "Sentinel API"
+    PROJECT_VERSION: str = "1.0.0"  # Adicione esta linha aqui
     
     # O os.getenv busca o valor no .env. Se não achar, usa o valor padrão (fallback)
     SECRET_KEY: str = os.getenv("SECRET_KEY", "chave-temporaria-de-dev")
