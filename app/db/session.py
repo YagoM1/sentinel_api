@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from app.core.config import settings
 
-SQLALCHEMY_DATABASE_URL = "sqlite///./sentinel.db"
 
 #A engine é o motor que traduz Python para SQL
-engine = create_engine(SQLALCHEMY_DATABASE_URL,connect_args={"check_same_thread":False})
+engine = create_engine(settings.DATABASE_URL,connect_args={"check_same_thread": False}
+)
 
 #A SessionLocal é a fábrica de conexões. Cada requisição terá a sua.
 SessionLocal = sessionmaker(autocommit=False,autoflush=False, bind=engine)

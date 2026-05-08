@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Float, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from app.db.base import Base
+from app.db.base_class import Base
 
 class User(Base):
     """
@@ -17,27 +17,27 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     
     # Relacionamento 1:N - Um usuário pode monitorar vários alvos
-    monitors = relationship("MonitorTarget", back_populates="ower")
+    monitors = relationship("MonitorTarget", back_populates="owner")
     
 class MonitorTarget(Base):
     """ 
     Entidade principal para o serviço de monitoramento.
     Armazena URLs e critérios de alerta(como o preço desejado)
     """
-    __tablename__ = "monitor_targets"
+    __tablename__ = "monitors_targets"
     
     id = Column(Integer, primary_key=True, index=True)
     url = Column(String, nullable=False)
-    product_name = Column(String)
+    name = Column(String)
     target_price = Column(Float, nullable=True) # Alerta se o preço cair abaixo disso
     last_price = Column(Float)
     is_active = Column(Boolean,default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     
-    user_id = Column(Integer, ForeignKey("users.id"))
+    owner_id = Column(Integer, ForeignKey("users.id"))
     
     # Back-refenrece para o dono do monitoramento
-    ower = relationship("User", back_populates="monitors")
+    owner = relationship("User", back_populates="monitors")
     # Histórico de notificações disparada para esse alvo
     notifications = relationship("NotificationHistory", back_populates="target")
     
