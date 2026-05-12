@@ -7,6 +7,7 @@ from app.core.config import settings
 from app.db.session import engine
 from app.db.base_class import Base
 from app.db import base
+from app.core.scheduler import scheduler
 #importante para o SQLAlchemy encontrar os modelos
 
 # Este comando cria as tabelas no banco de dados automaticamente se elas não existirem.
@@ -33,3 +34,20 @@ def root():
     Rota de boas-vindas para verificar se o servidor está online
     """
     return {"message": f"Bem-vindo à {settings.PROJECT_NAME}!"}
+    
+@app.on_event("startup")
+def start_scheduler():
+    if not scheduler.running:
+        scheduler.start()
+
+@app.on_event("shutdown")
+def stop_scheduler():
+    scheduler.shutdown()
+    
+@app.get("/api/v1/scheduler-status")
+def get_scheduler_status():
+    return {
+        "is_running": scheduler.running,
+        "next_jobs": [str(job.next_run_time) for job in scheduler.get_jobs()],
+        "total_jobs": len(scheduler.get_jobs())
+    }

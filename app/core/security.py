@@ -1,10 +1,10 @@
 from passlib.context import CryptContext
 from datetime import datetime,  timedelta
 from typing import Any, Union
-from jose import jwt
+import jwt
 from app.core.config import settings
 
-# Configuração do algoritmo de hash (Bcrypt)
+# Configuração do algoritmo de hash (sha256_crypt)
 # O rounds=12 define a "força" do hash,  tornando-o resistente a ataques de forças
 pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
@@ -18,7 +18,7 @@ def get_password_hash(password: str) -> str:
 def verify_password(plain_password: str, hased_password: str) -> bool:
     """
     Verifica se a senha digitada no login bate com o hash salvo no banco
-    """    
+    """
     return pwd_context.verify(plain_password, hased_password)
 
 def create_access_token(subject: Union[str, Any], expire_delta: timedelta = None) -> str:
